@@ -8,10 +8,10 @@ import styles from "./CountriesTable.module.css";
 
 const orderBy = (countries, value, direction) => {
   if (direction === "asc") {
-    return [...countries].sort((a, b) => (a[value] - b[value] ? 1 : -1));
+    return [...countries].sort((a, b) => (a[value] > b[value] ? 1 : -1));
   }
   if (direction === "desc") {
-    return [...countries].sort((a, b) => (a[value] - b[value] ? -1 : 1));
+    return [...countries].sort((a, b) => (a[value] > b[value] ? -1 : 1));
   }
   return countries;
 };
