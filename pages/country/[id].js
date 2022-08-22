@@ -1,7 +1,7 @@
-
+import { useState,useEffect } from "react";
 import Layout from "../../components/Layout/Layout";
 import styles from "./Country.module.css";
-
+import Image from 'next/image'
 const getCountry = async (id) => {
   const res = await fetch(`https://restcountries.com/v2/alpha/${id}`);
   const country = await res.json();
@@ -9,6 +9,20 @@ const getCountry = async (id) => {
 };
 
 const Country = ({ country }) => {
+
+  const getBorders = async () => {
+    if(country.hasOwnProperty("borders")){
+      const borders = await Promise.all(
+        country.borders.map((border) => getCountry(border))
+      );
+      setBorder(borders);
+    }
+    
+  };
+  const [borders, setBorder] = useState([]);
+  useEffect(() => {
+    getBorders();
+  }, []);
 
 
   return (
@@ -65,7 +79,23 @@ const Country = ({ country }) => {
                 {country.subregion}
               </div>
             </div>
-           
+            <div className={styles.details_panel_borders}>
+              <div className={styles.details_panel_borders_label}>
+                Neighbouring Countries
+              </div>
+              <div className={(typeof borders !== 'undefined' && borders.length > 0)?(styles.details_panel_borders_container):(styles.noborder)}>
+                
+                
+                {(typeof borders !== 'undefined' && borders.length > 0) ? borders.map(({ flag, name }) => (
+                  <div key={name} className={styles.details_panel_country}>
+                    <img src={flag} alt={name}  />
+                    <div className={styles.details_panel_borders_name}>
+                      {name}
+                    </div>
+                  </div>
+                )): <div className={styles.border_desc}>This Country has no Neighbouring Countries because it&apos;s an island!! </div>}
+              </div>
+            </div>
           </div>
         </div>
       </div>
