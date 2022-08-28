@@ -5,6 +5,7 @@ import {
   KeyboardArrowDownRounded,
 } from "@mui/icons-material";
 import styles from "./CountriesTable.module.css";
+import Image from "next/image";
 
 const orderBy = (countries, value, direction) => {
   if (direction === "asc") {
@@ -93,7 +94,7 @@ const CountriesTable = ({ countries }) => {
         <Link href={`/country/${country.alpha3Code}`} key={country.name}>
           <div className={styles.row}>
             <div className={styles.flag}>
-              <img src={country.flag} alt={country.name} title={country.name} />
+              <Image width={60} height={40} src={country.flag} alt={country.name} title={country.name} />
             </div>
             <div className={styles.name}>{country.name}</div>
             <div className={styles.population}>{country.population}</div>
