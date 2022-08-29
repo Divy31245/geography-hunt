@@ -40,6 +40,10 @@ const SortArrow = ({ direction }) => {
 const CountriesTable = ({ countries }) => {
   const [direction, setDirection] = useState();
   const [value, setValue] = useState();
+  const [pgNum,setPgnum] = useState(5);
+  const handleClick = () =>{
+    setPgnum(pgNum => pgNum + 10);
+  }
   const orderedCountries = orderBy(countries, value, direction);
   const switchDirection = () => {
     if (!direction) {
@@ -90,7 +94,7 @@ const CountriesTable = ({ countries }) => {
           {value === "gini" && <SortArrow direction={direction} />}
         </button>
       </div>
-      {orderedCountries.map((country) => (
+      {orderedCountries.slice(0,pgNum).map((country) => (
         <Link href={`/country/${country.alpha3Code}`} key={country.name}>
           <div className={styles.row}>
             <div className={styles.flag}>
@@ -103,6 +107,11 @@ const CountriesTable = ({ countries }) => {
           </div>
         </Link>
       ))}
+      <div className={styles.btn}>
+  <button onClick={handleClick} className={styles.btnOne}>
+    <span>Load More</span>
+  </button>
+</div>
     </div>
   );
 };
